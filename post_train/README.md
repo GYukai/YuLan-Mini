@@ -89,13 +89,12 @@ Following the collection of instructional data, we sampled completions from the 
 
 The final composition of our dataset is as follows:
 
-| *Category  | Count | Ratio |
+| Category  | Count | Ratio |
 |---------------|-----------|-----------|
 | Off-policy    | 258K      | 69\%      |
 | On-policy     | 115K      | 31\%      |
 | Total     | 373K      | 100\% |
 
-*Table 1: Statistics of preference data.*
 
 ### Preference Tuning Recipe
 
@@ -151,7 +150,7 @@ We are releasing the evaluation data generated from our YuLan-Mini post-trained 
 
 To show the performance of YuLan-Mini, We conduct a comparative analysis of YuLan-Mini alongside other models of comparable size and capability. To the extent possible, we evaluate the performance of other models ourselves and compare the results with the reported numbers, selecting the best score. 
 
-We utilize the metrics outlined in Table 3, where higher scores are consistently preferred. 
+We utilize the metrics outlined in following table, where higher scores are consistently preferred. 
 
 | **Core Skill** | **Development**                |
 | -------------- | ------------------------------ |
@@ -167,11 +166,10 @@ We utilize the metrics outlined in Table 3, where higher scores are consistently
 |                | MBPP<sub>(pass@10)</sub>       |
 |                | MBPP+<sub>(pass@10)</sub>      |
 
-<center>Table 3: Benchmarks we choosen to evaluate the models performance on Knowledge, Reasoning, Math and coding.</center>
 
 ### General Knowledge
 
-MMLU and TruthfulQA as benchmark to assess YuLan-Mini's performance in knowledge-based question answering. For MMLU, we report the macro average of subtask accuracy under the 5-shot standard setting without CoT and 0-shot standard setting with CoT. For TruthfulQA, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT. As shown in Table 4, Our YuLan-Mini is not much different from Qwen2.5 and Llama3.2 in common sense tasks.
+MMLU and TruthfulQA as benchmark to assess YuLan-Mini's performance in knowledge-based question answering. For MMLU, we report the macro average of subtask accuracy under the 5-shot standard setting without CoT and 0-shot standard setting with CoT. For TruthfulQA, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT. As shown in  table, Our YuLan-Mini is not much different from Qwen2.5 and Llama3.2 in common sense tasks.
 
 ### Reasoning
 
@@ -179,11 +177,11 @@ We assess the ability of the models' reasoning ability on ARC. We report that Yu
 
 ### Math
 
-We utilize MATH and GSM8K as benchmarks to assess YuLan-Mini's performance in MATH. For MATH,we report the macro average of subtask accuracy under the 0-shot standard setting with CoT. For GSM8K, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT and the macro average of subtask accuracy under the 8-shot standard setting. As shown in Table 4, Our YuLan-Mini has a excellent math ability with higher benchmarks above Llama3.2, which is much smaller than Llama3.2.
+We utilize MATH and GSM8K as benchmarks to assess YuLan-Mini's performance in MATH. For MATH,we report the macro average of subtask accuracy under the 0-shot standard setting with CoT. For GSM8K, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT and the macro average of subtask accuracy under the 8-shot standard setting. As shown in table, Our YuLan-Mini has a excellent math ability with higher benchmarks above Llama3.2, which is much smaller than Llama3.2.
 
 ### Code
 
-We conduct rigorous evaluation of the models' code generation capabilities across four benchmarks: HumanEval, HumanEvalPlus, MBPP and MBPPPlus. From the Table 4, it can be seen that our YuLan-Mini model has the highest performance according to the benchmarks, indicating that YuLan-Mini's coding ability is the best among the three.
+We conduct rigorous evaluation of the models' code generation capabilities across four benchmarks: HumanEval, HumanEvalPlus, MBPP and MBPPPlus. It can be seen that our YuLan-Mini model has the highest performance according to the benchmarks, indicating that YuLan-Mini's coding ability is the best among the three.
 
 
 
@@ -201,7 +199,6 @@ We conduct rigorous evaluation of the models' code generation capabilities acros
 | MBPP<sub>(pass@10)</sub>       | 85.7                    | 80.4                     | **88.1**                   |
 | MBPP+<sub>(pass@10)</sub>      | 75.4                    | 71.2                     | 77.5                       |
 
-Table2: Summary of comparison results between Yulan-Mini and other similar size models.  The best performing model on each benchmark is displayed in bold. The performance of Yulan-Mini's code is significantly better than Qwen2.5 and llama3.2.  In addition,  Yulan-Mini also has excellent mathematical ability,  general knowledge ability,  and reasoning ability
 
 ## 7. Conclusion
 
