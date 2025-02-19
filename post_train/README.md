@@ -1,5 +1,6 @@
 
 
+
 ## 1. Introduction
 
 We present **YuLan-Mini**, a compact yet powerful model with 2.4 billion parameters. Through efficient training on open or synthetic data, the model achieves comparable results without sacrificing its core capabilities.
@@ -54,9 +55,9 @@ $$
 
 Here, $\lambda_1$, $\lambda_2$ are the hyperparameters; $L_{\text{length}}$ denotes the length of the instruction; $\text{Loss}_{\text{it}}(x, y)$ is the loss calculated by the base model:
 
-$$
+```math
 \text{Loss}_{\text{it}}(x,y)=\sum\limits_{i=1}^{|y|} \log P(y_i|x,y_{1:i-1})
-$$
+```
 
 where $y_i$ represents the $i$-th token in the output $y$, and $y_{1:i-1}$ denotes the sequence up to the $i-1$ tokens. 
 We also sort the data by complexity and discard a certain proportion, which is overly difficult.
