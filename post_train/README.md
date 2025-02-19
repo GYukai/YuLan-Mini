@@ -54,7 +54,9 @@ $$
 
 Here, $\lambda_1$, $\lambda_2$ are the hyperparameters; $L_{\text{length}}$ denotes the length of the instruction; $\text{Loss}_{\text{it}}(x, y)$ is the loss calculated by the base model:
 
-$$\text{Loss}_{\text{it}}(x, y)=\sum_{i=1}^{|y|} \log P(y_i | x, y_{1:i-1}),$$
+$$
+\text{Loss}_{\text{it}}(x, y)=\sum_{i=1}^{|y|} \log P(y_i | x, y_{1:i-1}),
+$$
 
 where $y_i$ represents the $i$-th token in the output $y$, and $y_{1:i-1}$ denotes the sequence up to the $i-1$ tokens. 
 We also sort the data by complexity and discard a certain proportion, which is overly difficult.
