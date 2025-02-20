@@ -3,14 +3,14 @@
 
 ## 1. Introduction
 
-We present **YuLan-Mini**, a compact yet powerful model with 2.4 billion parameters. Through efficient training on open or synthetic data, the model achieves comparable results without sacrificing its core capabilities.
-**YuLan-Mini** is pre-trained on 1.08 trillion tokens and further enhanced through a post-training pipeline incorporating Supervised Fine-Tuning, Preference Finetuning, and Reinforcement Learning to maximize its capabilities.
-Extensive evaluations demonstrate that **YuLan-Mini** achieves state-of-the-art performance, demonstrating competitive performance with leading industrial counterparts across various domains including instruction-following, math, code, and reasoning tasks.
+We present **YuLan-Mini-Instruct**, a compact yet powerful model with 2.4 billion parameters. **YuLan-Mini-Instruct** represents a post-training adaptation of [YuLan-Mini](https://arxiv.org/abs/2412.17743) base model. Through efficient training on open or synthetic data, the model achieves comparable results without sacrificing its core capabilities.
+**YuLan-Mini-Instruct** is pre-trained on 1.08 trillion tokens and further enhanced through a post-training pipeline incorporating Supervised Fine-Tuning, Preference Finetuning, and Reinforcement Learning to maximize its capabilities.
+Extensive evaluations demonstrate that **YuLan-Mini-Instruct** achieves state-of-the-art performance, demonstrating competitive performance with leading industrial counterparts across various domains including instruction-following, math, code, and reasoning tasks. Our model is available at https://huggingface.co/yulan-team/YuLan-Mini-Instruct.
 
 ## 2. Model Overview
 
-**YuLan-Mini** demonstrates competitive performance compared to similarly sized models, particularly in reasoning tasks involving math and code.
-We evaluate **YuLan-Mini** against other models in the frontier model series with comparable parameter sizes, including Qwen2.5-1.5B-Instruct and Llama3.2-3B-Instruct.
+**YuLan-Mini-Instruct** demonstrates competitive performance compared to similarly sized models, particularly in reasoning tasks involving math and code.
+We evaluate **YuLan-Mini-Instruct** against other models in the frontier model series with comparable parameter sizes, including Qwen2.5-1.5B-Instruct and Llama3.2-3B-Instruct. 
 
 ![result](img/result.png)
 
@@ -149,9 +149,9 @@ The specific hyperparameters used in our PPO training are detailed in the table 
 
 ## 6. Evaluation
 
-We are releasing the evaluation data generated from our YuLan-Mini post-trained models tested on various benchmark tasks. This is in line with our approach during pre-training.
+We are releasing the evaluation data generated from our YuLan-Mini-Instruct post-trained models tested on various benchmark tasks. This is in line with our approach during pre-training.
 
-To show the performance of YuLan-Mini, We conduct a comparative analysis of YuLan-Mini alongside other models of comparable size and capability. To the extent possible, we evaluate the performance of other models ourselves and compare the results with the reported numbers, selecting the best score. 
+To show the performance of YuLan-Mini-Instruct, We conduct a comparative analysis of YuLan-Mini-Instruct alongside other models of comparable size and capability. To the extent possible, we evaluate the performance of other models ourselves and compare the results with the reported numbers, selecting the best score. 
 
 We utilize the metrics outlined in following table, where higher scores are consistently preferred. 
 
@@ -172,19 +172,19 @@ We utilize the metrics outlined in following table, where higher scores are cons
 
 ### General Knowledge
 
-MMLU and TruthfulQA as benchmark to assess YuLan-Mini's performance in knowledge-based question answering. For MMLU, we report the macro average of subtask accuracy under the 5-shot standard setting without CoT and 0-shot standard setting with CoT. For TruthfulQA, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT. As shown in  table, Our YuLan-Mini is not much different from Qwen2.5 and Llama3.2 in common sense tasks.
+MMLU and TruthfulQA as benchmark to assess YuLan-Mini-Instruct's performance in knowledge-based question answering. For MMLU, we report the macro average of subtask accuracy under the 5-shot standard setting without CoT and 0-shot standard setting with CoT. For TruthfulQA, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT. As shown in  table, Our YuLan-Mini-Instruct is not much different from Qwen2.5 and Llama3.2 in common sense tasks.
 
 ### Reasoning
 
-We assess the ability of the models' reasoning ability on ARC. We report that YuLan-Mini outperform Qwen2.5 arcoss ARC, with a level in the middle of three models.
+We assess the ability of the models' reasoning ability on ARC. We report that YuLan-Mini-Instruct outperform Qwen2.5 arcoss ARC, with a level in the middle of three models.
 
 ### Math
 
-We utilize MATH and GSM8K as benchmarks to assess YuLan-Mini's performance in MATH. For MATH,we report the macro average of subtask accuracy under the 0-shot standard setting with CoT. For GSM8K, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT and the macro average of subtask accuracy under the 8-shot standard setting. As shown in table, Our YuLan-Mini has a excellent math ability with higher benchmarks above Llama3.2, which is much smaller than Llama3.2.
+We utilize MATH and GSM8K as benchmarks to assess YuLan-Mini-Instruct's performance in MATH. For MATH,we report the macro average of subtask accuracy under the 0-shot standard setting with CoT. For GSM8K, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT and the macro average of subtask accuracy under the 8-shot standard setting. As shown in table, Our YuLan-Mini-Instruct has a excellent math ability with higher benchmarks above Llama3.2, which is much smaller than Llama3.2.
 
 ### Code
 
-We conduct rigorous evaluation of the models' code generation capabilities across four benchmarks: HumanEval, HumanEvalPlus, MBPP and MBPPPlus. It can be seen that our YuLan-Mini model has the highest performance according to the benchmarks, indicating that YuLan-Mini's coding ability is the best among the three.
+We conduct rigorous evaluation of the models' code generation capabilities across four benchmarks: HumanEval, HumanEvalPlus, MBPP and MBPPPlus. It can be seen that our YuLan-Mini-Instruct model has the highest performance according to the benchmarks, indicating that YuLan-Mini-Instruct's coding ability is the best among the three.
 
 
 
@@ -203,6 +203,27 @@ We conduct rigorous evaluation of the models' code generation capabilities acros
 | MBPP+<sub>(pass@10)</sub>      | 75.4                    | 71.2                     | 77.5                       |
 
 
-## 7. Conclusion
+## 7. Conclusion, Limitations, and Future Work
 
-Our experiments demonstrate the promising performance of smaller LLMs in specific tasks. We believe that techniques like Chain-of-Thought prompting can be further optimized to enhance the reasoning capabilities of these models. Future work will focus on unlocking the full potential of our model by exploring novel methods to improve its reasoning abilities, ultimately leading to more robust and versatile performance.
+While  its performance on knowledge-intensive benchmarks like MMLU reveals a current limitation, our experiments demonstrate a promising performance of smaller LLMs in general tasks. Future work will concentrate on expanding our training data with more diverse and comprehensive examples and developing the model's reasoning capabilities. We believe that these efforts will unlock significant improvements in overall performance and contribute to a more robust and generalizable LLM.
+
+
+## Contributors
+
+### YuLan-Mini-Instruct Team 
+
+Authors are listed in alphabetical order: Fei Bai, Zhipeng Chen, Yanzipeng Gao, Yukai Gu, Yiwen Hu, Yihong Liu, Yingqian Min, Ruiyang Ren, Huatong Song, Shuang Sun, Jirou Wen, Chenghao Wu, Xin Zhao, Kun Zhou, Yutao Zhu
+
+## Reference
+
+Please kindly cite our reports if they are helpful for your research.
+
+```
+@article{YuLan-Mini-Instruct,
+  title={YuLan-Mini-Instruct Technical Report
+},
+  author={RUCAIBox YuLan-Mini-Instruct Team},
+  url={https://github.com/RUC-GSAI/YuLan-Mini},
+  year={2025}
+}
+```
