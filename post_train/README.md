@@ -49,8 +49,10 @@ LLM-as-a-Judge is an effective method for evaluating data quality. Specifically,
 ##### Complexity-based selection
 Besides low data quality, excessive data complexity can significantly impair learning efficacy. This phenomenon is particularly pronounced in smaller-scale language models, which demonstrate limited capacity to effectively process and internalize highly complex patterns. Consequently, we develop an approach to identify and filter training samples that exceed the model's optimal learning capacity. The complexity of each instruction is measured using the following equation:
 
-$$
-\text{C}(x,y) = \lambda_1 \cdot L_{\text{length}}  + \lambda_2 \cdot \text{Loss}_{\text{it}}(x, y),$$
+```math
+\text{C}(x,y) = \lambda_1 \cdot L_{\text{length}}  + \lambda_2 \cdot \text{Loss}_{\text{it}}(x, y),
+```
+
 where $\lambda_1$, $\lambda_2$ are hyperparameters, $L_{\text{length}}$ denotes the length of the instruction, and $\text{Loss}_{\text{it}}(x, y)$ is the loss calculated by the base model:
 
 ```math
