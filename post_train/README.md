@@ -3,14 +3,14 @@
 
 ## 1. Introduction
 
-We present **YuLan-Mini-Instruct**, a compact yet powerful model with 2.4 billion parameters. **YuLan-Mini-Instruct** represents a post-training adaptation of [YuLan-Mini](https://arxiv.org/abs/2412.17743) base model. Through efficient training on open or synthetic data, the model achieves comparable results without sacrificing its core capabilities.
-**YuLan-Mini-Instruct** is pre-trained on 1.08 trillion tokens and further enhanced through a post-training pipeline incorporating Supervised Fine-Tuning, Preference Finetuning, and Reinforcement Learning to maximize its capabilities.
-Extensive evaluations demonstrate that **YuLan-Mini-Instruct** achieves state-of-the-art performance, demonstrating competitive performance with leading industrial counterparts across various domains including instruction-following, math, code, and reasoning tasks. Our model is available at https://huggingface.co/yulan-team/YuLan-Mini-Instruct.
+We introduce **YuLan-Mini-Instruct**, a compact yet powerful model with 2.4 billion parameters. YuLan-Mini-Instruct represents a post-training adaptation of [YuLan-Mini](https://arxiv.org/abs/2412.17743) base model. By leveraging efficient training on both open and synthetic data, the model achieves performance comparable to mainstream models (such as Qwen-1.5b and LLaMA-3B), without compromising its core capabilities in math and code.
+YuLan-Mini-Instruct is pre-trained on 1.08 trillion tokens and further enhanced through a post-training pipeline  that incorporates Supervised Fine-Tuning, Preference Finetuning, and Reinforcement Learning to maximize its capabilities.
+Extensive evaluations demonstrate that YuLan-Mini-Instruct achieves state-of-the-art performance, demonstrating competitive capabilities with leading industrial counterparts across multiple domains including instruction-following, math, code, and reasoning tasks. The model is available at https://huggingface.co/yulan-team/YuLan-Mini-Instruct.
 
 ## 2. Model Overview
 
-**YuLan-Mini-Instruct** demonstrates competitive performance compared to similarly sized models, particularly in reasoning tasks involving math and code.
-We evaluate **YuLan-Mini-Instruct** against other models in the frontier model series with comparable parameter sizes, including Qwen2.5-1.5B-Instruct and Llama3.2-3B-Instruct. 
+**YuLan-Mini-Instruct** exhibits competitive performance compared to similarly sized models, particularly in reasoning tasks involving math and code.
+We evaluate YuLan-Mini-Instruct against other models from the frontier series with similar parameter sizes, including Qwen2.5-1.5B-Instruct and Llama3.2-3B-Instruct. 
 
 ![result](img/result.png)
 
@@ -18,53 +18,50 @@ We evaluate **YuLan-Mini-Instruct** against other models in the frontier model s
 
 ### Data
 #### Data Source
-We meticulously select two main data sources: 1) Open-source data and 2) Synthetic Data, enabling our model to achieve broad knowledge coverage and strong professional capabilities.
+We meticulously select two primary data sources: 1) Open-source data and 2) Synthetic Data, ensuring that our model achieves comprehensive knowledge coverage and robust domain-specific expertise.
 
 ##### Open-source data
-We have curated a collection of high-quality open-source datasets spanning multiple fields and subjects. These datasets are either constructed by powerful proprietary models like GPT-4 or crafted by human experts, providing a robust foundation for SFT.
+We curate a collection of high-quality open-source datasets spanning multiple fields and subjects. These datasets are either constructed by powerful proprietary models like GPT-4 or crafted by human experts, providing a robust foundation for SFT.
 
 ##### Synthetic data
-Due to the scarcity of high-quality domain-specific data, synthetic data often plays a crucial role in improving the model's professional capabilities. Consequently, we have also synthesized a large amount of targeted data in domains such as mathematics, science, and Chinese commonsense reasoning.
+Given the scarcity of high-quality domain-specific data, synthetic data plays a crucial role in improving the model's professional capabilities. Consequently, we also synthesize a substantial corpus of targeted data across domains such as mathematics, science, and Chinese commonsense reasoning.
 
-* **Mathematics**. Distilling from powerful models is an efficient way to construct data, especially for mathematics. However, in addition to choosing the appropriate teacher model, it is equally important to select high-quality and targeted initial instructions. Therefore, we select Qwen2.5-Math-7B-Instruct, which has strong mathematical capabilities, as the teacher model. Additionally, we choose questions of varying difficulty levels from OpenMathInstruct2, a dataset comprising over 10 million high-quality math question-answer pairs, to serve as the initial samples for distillation. Each distilled response is matched to the ground truth to ensure the precision of the answer.
+* **Mathematics**. Distilling from powerful models provides an efficient approach for data construction, especially in the domain of mathematics. However, in addition to selecting an appropriate teacher model, the choice of high-quality and domain-specific initial instructions is equally crucial. Consequently, we adopt Qwen2.5-Math-7B-Instruct, known for its strong mathematical capabilities, as the teacher model. For the initial distillation samples, we select questions of varying difficulty from OpenMathInstruct2, a dataset containing over 10 million high-quality math question-answer pairs. Each distilled response is matched with the ground truth to ensure the precision of the answer.
 
-* **Science**. To construct high-quality scientific datasets, we initially collect scientific texts from sources like Wiki, Reddit, and Arxiv, spanning fields such as physics, chemistry, biology, and psychology. Subsequently, we employ Qwen2.5-32B-Instruct to extract questions from these texts and generate appropriate answers. The generated question-answer pairs are then reclassified using a topic classifier to ensure that they fall within corresponding scientific categories.
+* **Science**. To develop high-quality scientific datasets, we first collect scientific texts from a diverse array of reputable sources, such as Wiki, Reddit, and Arxiv. These texts cover a broad spectrum of disciplines, including physics, chemistry, biology, and psychology. After the collection phase, we use Qwen2.5-32B-Instruct to extract questions from the texts and generate appropriate answers. Finally, the generated question-answer pairs are reclassified using a topic classifier to ensure accurate alignment with respective scientific categories.
 
-* **Chinese commonsense reasoning**. For Chinese commonsense reasoning data construction, we collect data from Baidu Baike and real user interactions from platforms like WildChat and SmolTalk-Chinese. Using TF-IDF and keyword matching, we identify and filter highly relevant content, generating multiple question-answer pairs for knowledge-dense documents. For quality control, we employ the CMMLU classifier for topic categorization and LLM-based evaluation to assess response quality. To prevent hallucination, we cross-reference entity-based queries with encyclopedia entries and maintain a mapping list for consistent answers to similar questions.
+* **Chinese commonsense reasoning**. For the construction of Chinese commonsense reasoning data, we collect data from authoritative source Baidu Baike and  authentic user interactions from prominent platforms such as WildChat and SmolTalk-Chinese. Using TF-IDF and keyword matching, we identify and filter content with highly semantic relevance for generating multiple question-answer pairs with knowledge-intensive documents. To maintain rigorous quality standards, we employ the CMMLU classifier for topic categorization and LLM-based evaluation to assess response quality. To prevent hallucination, we cross-reference entity-based queries with encyclopedia entries and maintain a mapping list for consistent answers to similar questions.
 
 
 
 #### Data Filtering
-During the SFT phase, high-quality data is essential to improve model performance. Therefore, we have designed a comprehensive data filtering pipeline, which ensures that the refined dataset maximally contributes to the model's effectiveness and reliability.
+During the SFT phase, the quality of training data plays a pivotal role in model performance. Therefore, we design a comprehensive data filtering pipeline incorporating multiple quality control strategies, ensuring that the refined dataset maximally contributes to the model's effectiveness and reliability.
 
 ##### De-duplication
-In the process of data filtering, de-duplication is a standard procedure since an abundance of duplicate data can restrict the model's capacity to learn diverse knowledge, thereby rendering the training process more inefficient. To address this issue, we have chosen MinHash and Locality Sensitive Hashing (LSH) algorithms to effectively remove repeated data.
+During the data filtration process, deduplication represents a critical preprocessing step, as the presence of redundant data samples can significantly constrain the model's ability to to learn diverse patterns, thereby compromising the training efficiency. To address this challenge, we adopt MinHash and Locality-Sensitive Hashing (LSH) algorithms, which enables efficient identification and removal of near-duplicate content.
 
 ##### Heuristic filtering
-Undesirable patterns in training data, such as repeated punctuation or excessive garbled text, can significantly degrade model performance. To avoid this, we have developed a series of rule-based filtering strategies to remove samples that could potentially harm the model. 
+Anomalous patterns in training data, including but not limited to repetitive punctuation or excessive garbled text, have been empirically demonstrated to adversely affect model performance. To avoid this, we develop a comprehensive suite of rule-based filtration heuristics to eliminating low-quality samples that could potentially harm the model. 
 
 ##### Quality-based scoring
-LLM-as-a-Judge is an effective method for evaluating data quality. Specifically, we use Qwen2.5-32B-Instruct as the Judge to score each piece of data on three dimensions: Instruction Following, Informativeness and Truthfulness, with scores ranging from 1 to 5. We then sort the data according to the average score across these three dimensions and discard samples from the lower percentile. 
+LLM-as-a-Judge is an effective method for evaluating data quality. Specifically, we use Qwen2.5-32B-Instruct as the judge to score each piece of data on three dimensions: Instruction Following, Informativeness and Truthfulness, with scores ranging from 1 to 5. We then sort the data according to the average score across these three dimensions and discard samples from the lower percentile. 
 
 ##### Complexity-based selection
-Low-quality data can harm model performance, while for smaller language models, overly complex data can cause similar problems. Consequently, we focus on eliminating data that are too challenging for the model to learn from. The complexity of each instruction is measured using the following equation:
+Besides low data quality, excessive data complexity can significantly impair learning efficacy. This phenomenon is particularly pronounced in smaller-scale language models, which demonstrate limited capacity to effectively process and internalize highly complex patterns. Consequently, we develop an approach to identify and filter training samples that exceed the model's optimal learning capacity. The complexity of each instruction is measured using the following equation:
 
 $$
-\text{Comp}(x,y) = \lambda_1 \cdot L_{\text{length}}  + \lambda_2 \cdot \text{Loss}_{\text{it}}(x, y).
-$$
-
-Here, $\lambda_1$, $\lambda_2$ are the hyperparameters; $L_{\text{length}}$ denotes the length of the instruction; $\text{Loss}_{\text{it}}(x, y)$ is the loss calculated by the base model:
+\text{C}(x,y) = \lambda_1 \cdot L_{\text{length}}  + \lambda_2 \cdot \text{Loss}_{\text{it}}(x, y),$$
+where $\lambda_1$, $\lambda_2$ are hyperparameters, $L_{\text{length}}$ denotes the length of the instruction, and $\text{Loss}_{\text{it}}(x, y)$ is the loss calculated by the base model:
 
 ```math
-\text{Loss}_{\text{it}}(x,y)=\sum\limits_{i=1}^{|y|} \log P(y_i|x,y_{1:i-1})
+\text{Loss}_{\text{it}}(x,y)=\sum\limits_{i=1}^{|y|} \log P(y_i|x,y_{1:i-1}),
 ```
-
 where $y_i$ represents the $i$-th token in the output $y$, and $y_{1:i-1}$ denotes the sequence up to the $i-1$ tokens. 
-We also sort the data by complexity and discard a certain proportion, which is overly difficult.
+We implemente a complexity-based stratification protocol followed by selective pruning of samples exceeding empirically determined complexity thresholds. 
 
 
 #### Data Mix
-Merely combining different types of data in the SFT phase can cause data conflicts, which may degrade the model performance in specific domains. To mitigate the issue, we allocate data proportions based on each source's characteristics, balancing general and domain-specific data. Moreover, through extensive incremental experiments, we also dynamically adjust the data ratio in real-time according to training performance and feedback to achieve optimal results. The detailed data proportions are listed in the following table.
+The mere aggregation of diverse data types during the SFT phase may lead to data conflicts, potentially degrading model performance in specific domains. To mitigate the issue, we allocate data proportions based on each source's characteristics, balancing general and domain-specific data. Moreover, through extensive incremental experiments, we also dynamically adjust the data ratio in real-time according to training performance and feedback to achieve optimal results. The detailed data proportions utilized are listed in the following table.
 
 | **Category**  | **Count** | **Ratio** |
 |---------------|-----------|-----------|
@@ -78,19 +75,19 @@ Merely combining different types of data in the SFT phase can cause data conflic
 
 ### Recipe
 #### Training Settings
-To train our model, we used 4 nodes equipped with 8xH800 GPUs with high-speed interconnect. We used an effective batch size of 512 and a maximum sequence length of 28K tokens. We trained for 2 epochs using a learning rate of 1e-5.
+The model training is conducted on a distributed computing infrastructure comprising four nodes, each equipped with eight NVIDIA H800 GPUs interconnected through a high-speed network. We used an effective batch size of 512 and a maximum sequence length of 28K tokens. The optimization process is carried out over 2 epochs with a learning rate of 1e-5.
 
 ## 4. Preference Finetuning
 
 ### Preference Data
 
-Our preference data consists of both off-policy and on-policy data.  
-1) **Off-policy data**: We collected a collection of high-quality publicly available datasets.  
-2) **On-policy data**: We curated data spanning scientific problems, mathematics, programming, Chinese common knowledge, hallucinations, and self-awareness.
+Our preference data comprises a combination of off-policy and on-policy data sources.  
+1) **Off-policy data**: We aggregate a collection of high-quality publicly available datasets to form this component.  
+2) **On-policy data**: We systematically curate specialized datasets encompassing diverse domains, including scientific problems, mathematics, programming, Chinese common knowledge, hallucinations, and self-awareness evaluation.
 
-Following the collection of instructional data, we sampled completions from the SFT model. For instructions with objectively verifiable answers, we extracted responses using an LLM, where correct responses were designated as chosen responses, while incorrect responses were classified as rejected responses. For other instructions, we employed the reward model *Skywork/Skywork-Reward-Llama-3.1-8B-v0.2* to assign scores. Responses receiving high scores were designated as chosen responses, whereas those with low scores were categorized as rejected responses.
+Following the collection of instruction data, we sample completions from the SFT model. For instructions with objectively verifiable answers, we extract responses using an LLM, where correct responses are designated as chosen responses, while incorrect responses are classified as rejected responses. For the remaining instructions, we employ the reward model *Skywork/Skywork-Reward-Llama-3.1-8B-v0.2* to assign scores. High-scoring responses are marked as chosen, while low-scoring ones are classified as rejected.
 
-The final composition of our dataset is as follows:
+The final composition of the constructed dataset for preference data is as follows:
 
 | Category  | Count | Ratio |
 |---------------|-----------|-----------|
@@ -101,31 +98,31 @@ The final composition of our dataset is as follows:
 
 ### Preference Tuning Recipe
 
-Based on the SFT model, we employed Direct Preference Optimization (DPO) to align the model with human preferences. The model was trained for 2 epochs with a batch size of 128, a learning rate of 5e-7, and $\beta$ set to 0.1. This configuration demonstrated good convergence during training while maintaining a balance between training efficiency and computational resource consumption.
+Based on the SFT model, we employ Direct Preference Optimization (DPO) to align the model with human preferences. The model is trained for 2 epochs with a batch size of 128 and a learning rate of 5e-7, $\beta$ is set to 0.1. This configuration demonstrate effective convergence during training while maintaining a balance between training efficiency and computational resource consumption.
 
 
 
 ## 5. Reinforcement Learning
 
-Building upon the DPO model, we further enhance our model's performance and alignment with human preferences using Proximal Policy Optimization (PPO).
+Building upon the DPO model, we further enhance our model's performance and alignment with human preferences through Proximal Policy Optimization (PPO).
 
-### Prompt Data
+### Data Preparing
 
-For PPO training, we selected 10,000 challenging prompts from the DPO dataset. These prompts, covering a variety of task types, effectively drive the model's performance across different scenarios.
+For PPO training, we extract 10,000 challenging instructions from the DPO dataset. These instructions, representing diverse task categories, effectively optimize the model's performance across various scenarios.
 
 ### Reward Model
 
-Given the small size of our model's parameters and the complexity of training a high-quality reward model, we chose to use an open-source reward model to provide reward scores for our training process, instead of training one ourselves. Specifically, we used the Skywork-Reward-Llama-3.1-8B-v0.2 model, which has demonstrated robust performance in reward modeling.
+Considering the relatively small size of our model's parameters and the substantial computational resources required for training a high-performance reward model, we opt to leverage an open-source reward model to provide reward signals during the training process. Specifically, we used the Skywork-Reward-Llama-3.1-8B-v0.2 model, which has demonstrated robust performance in reward modeling.
 
 ### Training Recipe
 
-We used 8xH800 GPUs for training, conducting four episodes. Training was carried out using the OpenRLHF framework, which provides a flexible environment for reinforcement learning tasks. Although we encountered issues like reward hacking, which led to unstable training and output length collapse, we implemented several strategies to stabilize the training process.
+The training process is conducted utilizing 8xH800 GPUs for four epochs. We employ the training on the OpenRLHF framework, which provides a flexible environment for reinforcement learning tasks. During the training phase, we encounter several technical challenges, such as reward hacking phenomena that manifested as training instability and output length collapse. To address these issues, we implement a series of mitigation strategies:
 
-- **Critic Model Initialization and Freezing the Actor's Parameters.** The critic model was initialized from the reward model. Additionally, we froze the actor's parameter updates for the first 15 training steps to allow the critic to accurately assess value estimates.
+- **Critic Model Initialization and Actor Parameter Freezing.** The critic model is initialized from the reward model. Additionally, the actor model's parameters are maintained in a fixed state during the initial 15 training steps, allowing the critic model to accurately assess value estimates.
 - **Adaptive KL Controller.** We adopted an Adaptive KL Controller that dynamically adjusts the KL coefficient (beta) based on the KL divergence target, balancing exploration and exploitation during training.
-- **Rule-based Penalties for Reward Hacking.** We applied rule-based penalties to address reward hacking patterns, such as incomplete sentences (which also help penalize truncated responses, often containing redundant patterns in our smaller model), mixed-language responses (e.g., English prompts with Chinese characters), and single-sentence responses like "I hope this helps," which can score highly for most queries. These are just some of the patterns we've observed.
+- **Rule-based Penalties for Reward Hacking.** We applied rule-based penalties to address reward hacking patterns, such as incomplete sentences (which also help penalize truncated responses, often containing redundant patterns in our smaller model), mixed-language responses (e.g., English prompts with Chinese characters), and single-sentence responses like "I hope this helps,". These identified patterns represent a subset of the systematic anomalies observed during our extensive evaluation process, demonstrating high reward scores despite their lack of substantive content across diverse queries. 
 
-The specific hyperparameters used in our PPO training are detailed in the table below.
+The specific hyperparameters used in the PPO training are detailed in the table below.
 
 | **Hyperparameters**                     | **Value**              |
 |-----------------------------------------|------------------------|
@@ -149,9 +146,9 @@ The specific hyperparameters used in our PPO training are detailed in the table 
 
 ## 6. Evaluation
 
-We are releasing the evaluation data generated from our YuLan-Mini-Instruct post-trained models tested on various benchmark tasks. This is in line with our approach during pre-training.
+We release the evaluation data generated from our YuLan-Mini-Instruct post-trained models tested on various benchmark tasks, which maintains consistency with our pre-training approach.
 
-To show the performance of YuLan-Mini-Instruct, We conduct a comparative analysis of YuLan-Mini-Instruct alongside other models of comparable size and capability. To the extent possible, we evaluate the performance of other models ourselves and compare the results with the reported numbers, selecting the best score. 
+To comprehensively evaluate the performance of YuLan-Mini-Instruct, we conducted a rigorous comparative analysis against other models with similar scales and capabilities. For each benchmark task, we consistently select the optimal performance score (either from our empirical evaluations or published results) for comparison.
 
 We utilize the metrics outlined in following table, where higher scores are consistently preferred. 
 
@@ -172,19 +169,19 @@ We utilize the metrics outlined in following table, where higher scores are cons
 
 ### General Knowledge
 
-MMLU and TruthfulQA as benchmark to assess YuLan-Mini-Instruct's performance in knowledge-based question answering. For MMLU, we report the macro average of subtask accuracy under the 5-shot standard setting without CoT and 0-shot standard setting with CoT. For TruthfulQA, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT. As shown in  table, Our YuLan-Mini-Instruct is not much different from Qwen2.5 and Llama3.2 in common sense tasks.
+We adopt MMLU and TruthfulQA as benchmarks to assess YuLan-Mini-Instruct's performance in knowledge-based question answering. For MMLU, we report the macro average of subtask accuracy under the 5-shot standard setting without CoT and 0-shot standard setting with CoT. For TruthfulQA, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT. As shown in the table, YuLan-Mini-Instruct demonstrates comparable performance to both Qwen2.5 and Llama3.2 models across the commonsense reasoning tasks.
 
 ### Reasoning
 
-We assess the ability of the models' reasoning ability on ARC. We report that YuLan-Mini-Instruct outperform Qwen2.5 arcoss ARC, with a level in the middle of three models.
+We evaluate the reasoning capabilities of YuLan-Mini-Instruct using the ARC benchmark. The experimental results demonstrate that YuLan-Mini-Instruct achieves superior performance compared to Qwen2.5, while maintaining intermediate performance levels among the three evaluated models.
 
 ### Math
 
-We utilize MATH and GSM8K as benchmarks to assess YuLan-Mini-Instruct's performance in MATH. For MATH,we report the macro average of subtask accuracy under the 0-shot standard setting with CoT. For GSM8K, we report the macro average of subtask accuracy under the 0-shot standard setting without CoT and the macro average of subtask accuracy under the 8-shot standard setting. As shown in table, Our YuLan-Mini-Instruct has a excellent math ability with higher benchmarks above Llama3.2, which is much smaller than Llama3.2.
+We evaluate YuLan-Mini-Instruct's mathematical reasoning capabilities using MATH and GSM8K benchmarks. For MATH, we report macro-averaged subtask accuracy under the 0-shot setting with CoT. For GSM8K, we report macro-averaged accuracy under both 0-shot (without CoT) and 8-shot settings. Experimental results demonstrate that YuLan-Mini-Instruct achieves superior mathematical performance compared to Llama3.2, despite its significantly smaller model size.
 
 ### Code
 
-We conduct rigorous evaluation of the models' code generation capabilities across four benchmarks: HumanEval, HumanEvalPlus, MBPP and MBPPPlus. It can be seen that our YuLan-Mini-Instruct model has the highest performance according to the benchmarks, indicating that YuLan-Mini-Instruct's coding ability is the best among the three.
+We evaluate code generation capabilities across four established benchmarks: HumanEval, HumanEvalPlus, MBPP, and MBPPPlus. Experimental results demonstrate that YuLan-Mini-Instruct achieves superior performance across all benchmarks, outperforming comparable models in code generation tasks.
 
 
 
@@ -203,16 +200,18 @@ We conduct rigorous evaluation of the models' code generation capabilities acros
 | MBPP+<sub>(pass@10)</sub>      | 75.4                    | 71.2                     | 77.5                       |
 
 
-## 7. Conclusion, Limitations, and Future Work
+## 7. Conclusion, Limitation, and Future Work
 
-While  its performance on knowledge-intensive benchmarks like MMLU reveals a current limitation, our experiments demonstrate a promising performance of smaller LLMs in general tasks. Future work will concentrate on expanding our training data with more diverse and comprehensive examples and developing the model's reasoning capabilities. We believe that these efforts will unlock significant improvements in overall performance and contribute to a more robust and generalizable LLM.
+<!-- While  its performance on knowledge-intensive benchmarks like MMLU reveals a current limitation, our experiments demonstrate a promising performance of smaller LLMs in general tasks. Future work will concentrate on expanding our training data with more diverse and comprehensive examples and developing the model's reasoning capabilities. We believe that these efforts will unlock significant improvements in overall performance and contribute to a more robust and generalizable LLM. -->
+
+We propose YuLan-Mini-Instruct, a powerful small-scale language model with 2.4 billion parameters with complete post-training process with SFT, DPO and PPO strategies. Although YuLan-Mini-Instruct demonstrates limitations on knowledge-intensive benchmarks such as MMLU, our experimental results indicate that it exhibit competitive performance in several general-purpose tasks. We anticipate that our empirical contributions will contribute to the development of more robust and generalizable LLMs. Future research directions will focus on enhancing dataset diversity and comprehensiveness through expanded training data collection to improve reasoning capabilities. 
 
 
 ## Contributors
 
 ### YuLan-Mini-Instruct Team 
 
-Authors are listed in alphabetical order: Fei Bai, Zhipeng Chen, Yanzipeng Gao, Yukai Gu, Yiwen Hu, Yihong Liu, Yingqian Min, Ruiyang Ren, Huatong Song, Shuang Sun, Jirou Wen, Chenghao Wu, Xin Zhao, Kun Zhou, Yutao Zhu
+Authors are listed in alphabetical order: Fei Bai, Zhipeng Chen, Yanzipeng Gao, Yukai Gu, Yiwen Hu, Yihong Liu, Yingqian Min, Ruiyang Ren, Huatong Song, Shuang Sun, Ji-Rong Wen, Chenghao Wu, Xin Zhao, Kun Zhou, Yutao Zhu
 
 ## Reference
 
