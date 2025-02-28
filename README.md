@@ -53,11 +53,11 @@ Our pre-training methodology improves training efficiency through three key inno
 ---
 ## Behchmarks 🌟
 
-| Models                  | MMLU | CEVAL | GSM8K | ARC_CHALLENGE | GPQA | MATH | HUMANEVAL@1 | MBPP@1 |
+| Models                  | MMLU | CEVAL | GSM8K | ARC_CHALLENGE | GPQA | MATH | HUMANEVAL@1 | MBPP@10 |
 |-------------------------|-------|-------|-------|---------------|------|------|-------------|--------|
 | Qwen-2.5-1.5B-Instruct  | 57.5  | 65.4  | 73.2  | 47.8          | 29.8 | 55.2 | 61.6        | 88.1   |
 | Llama3.2-3B-Instruct    | 60    | 45.9  | 43.4  | 78.6          | 38.6 | 48   | 51.5        | 80.4   |
-| YuLan-Mini-Instruct-V1  | 52.5  | 51    | 82.3  | 51.9          | 30.6 | 54.5 | 67.7        | 85.4   |
+| YuLan-Mini-Instruct  | 53.6  | 50.5    | 82.3  | 51.8          | 30.1 | 55.2 | 67.7        | 85.7   |
 
 
 > Note: The model size calculation includes the embedding size.
@@ -358,8 +358,8 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 # Load model and tokenizer
-tokenizer = AutoTokenizer.from_pretrained("yulan-team/YuLan-Mini-Instruct-V1")
-model = AutoModelForCausalLM.from_pretrained("yulan-team/YuLan-Mini-Instruct-V1", torch_dtype=torch.bfloat16)
+tokenizer = AutoTokenizer.from_pretrained("yulan-team/YuLan-Mini-Instruct")
+model = AutoModelForCausalLM.from_pretrained("yulan-team/YuLan-Mini-Instruct", torch_dtype=torch.bfloat16)
 
 # Input text
 chat = [
@@ -376,17 +376,17 @@ print(tokenizer.decode(output[0][inputs['input_ids'].size(1):], skip_special_tok
 
 **vLLM Serve Example**
 ```bash
-vllm serve yulan-team/YuLan-Mini-Instruct-V1 --dtype bfloat16
+vllm serve yulan-team/YuLan-Mini-Instruct --dtype bfloat16
 ```
 
 **SGLang Serve Example**
 ```bash
-python -m sglang.launch_server --model-path yulan-team/YuLan-Mini-Instruct-V1 --port 30000 --host 0.0.0.0
+python -m sglang.launch_server --model-path yulan-team/YuLan-Mini-Instruct --port 30000 --host 0.0.0.0
 ```
 
 **Ollama**
 ```bash
-ollama run hf.co/mradermacher/YuLan-Mini-Instruct-V1-GGUF:IQ4_XS
+ollama run hf.co/mradermacher/YuLan-Mini-Instruct-GGUF:IQ4_XS
 ```
 
 ---

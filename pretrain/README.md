@@ -29,13 +29,13 @@ The pre-training code can be found [here](https://github.com/RUC-GSAI/YuLan-Mini
 </code></pre>
 
 <h3 id="key-features-">Continual Training Tutorial:</h3>
-<h4 id="step-1-modify-the-config-json-">Step 1: Modify the <code>config.json</code></h4>
-<p>Due to the implementation of Hugging Face Trainer, certain parameters are stored in the <code>config.json</code> file and cannot be modified through the Trainer&#39;s command-line arguments. Therefore, you need to update these parameters in the <code>config.json</code> file first, particularly:</p>
+<h4 id="step-1-modify-the-config-json-">Step 1: Modify the <code>trainer_state.json</code></h4>
+<p>Due to the implementation of Hugging Face Trainer, certain parameters are stored in the <code>trainer_state.json</code> file and cannot be modified through the Trainer&#39;s command-line arguments. Therefore, you need to update these parameters in the <code>trainer_state.json</code> file first, particularly:</p>
 <ul>
 <li><strong><code>save_steps</code></strong>: The frequency of saving intermediate checkpoints.</li>
 <li><strong><code>train_batch_size</code></strong>: The batch size per GPU (equivalent to <code>per_device_train_batch_size</code> in the Trainer). We used a batch size of 1008 (approximately 4M tokens) during the stable training stage. Maintaining this same batch size is equally important for training effectiveness.</li>
 </ul>
-<p>Below is an example of a properly configured <code>config.json</code> file:</p>
+<p>Below is an example of a properly configured <code>trainer_state.json</code> file:</p>
 <pre><code class="lang-json">{
   <span class="hljs-attr">"best_metric"</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-attr">"best_model_checkpoint"</span>: <span class="hljs-literal">null</span>,

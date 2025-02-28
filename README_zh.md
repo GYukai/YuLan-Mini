@@ -29,7 +29,7 @@ YuLan-Mini 是一个 2.4B 参数量的轻量化语言模型。仅使用 1.08T To
 |  模型  | 上下文长度 | SFT | 🤗 Hugging Face | ModelScope | Wise Model |
 |---------|----------------|-----|-----------------|------------|------------|
 | YuLan-Mini | 28K | ❎ | [`Base`](https://huggingface.co/yulan-team/YuLan-Mini) | [`Base`](https://modelscope.cn/models/yulan-team/YuLan-Mini) | [`Base`](https://wisemodel.cn/models/yulan-team/YuLan-Mini) |
-| YuLan-Mini-Instruct | 28K | ✅ | [`Instruct-V1`](https://huggingface.co/yulan-team/YuLan-Mini-Instruct-V1) | | |
+| YuLan-Mini-Instruct | 28K | ✅ | [`Instruct`](https://huggingface.co/yulan-team/YuLan-Mini-Instruct) | | |
 
 > 中间检查点可以在[这里](#%E9%A2%84%E8%AE%AD%E7%BB%83%E8%B5%84%E6%BA%90-)找到。
 
@@ -56,7 +56,7 @@ YuLan-Mini 是一个 2.4B 参数量的轻量化语言模型。仅使用 1.08T To
 |-------------------------|-------|-------|-------|---------------|------|------|-------------|--------|
 | Qwen-2.5-1.5B-Instruct  | 57.5  | 65.4  | 73.2  | 47.8          | 29.8 | 55.2 | 61.6        | 88.1   |
 | Llama3.2-3B-Instruct    | 60    | 45.9  | 43.4  | 78.6          | 38.6 | 48   | 51.5        | 80.4   |
-| YuLan-Mini-Instruct-V1  | 52.5  | 51    | 82.3  | 51.9          | 30.6 | 54.5 | 67.7        | 85.4   |
+| YuLan-Mini-Instruct  | 53.6  | 50.5    | 82.3  | 51.8          | 30.1 | 55.2 | 67.7        | 85.7   |
 
 > 注意：模型大小的计算包含了嵌入层（embedding）的大小。
 
@@ -354,8 +354,8 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 # Load model and tokenizer
-tokenizer = AutoTokenizer.from_pretrained("yulan-team/YuLan-Mini-Instruct-V1")
-model = AutoModelForCausalLM.from_pretrained("yulan-team/YuLan-Mini-Instruct-V1", torch_dtype=torch.bfloat16)
+tokenizer = AutoTokenizer.from_pretrained("yulan-team/YuLan-Mini-Instruct")
+model = AutoModelForCausalLM.from_pretrained("yulan-team/YuLan-Mini-Instruct", torch_dtype=torch.bfloat16)
 
 # Input text
 chat = [
@@ -372,17 +372,17 @@ print(tokenizer.decode(output[0][inputs['input_ids'].size(1):], skip_special_tok
 
 **vLLM部署示例**
 ```bash
-vllm serve yulan-team/YuLan-Mini-Instruct-V1 --dtype bfloat16
+vllm serve yulan-team/YuLan-Mini-Instruct --dtype bfloat16
 ```
 
 **SGLang部署示例**
 ```bash
-python -m sglang.launch_server --model-path yulan-team/YuLan-Mini-Instruct-V1 --port 30000 --host 0.0.0.0
+python -m sglang.launch_server --model-path yulan-team/YuLan-Mini-Instruct --port 30000 --host 0.0.0.0
 ```
 
 **Ollama部署示例**
 ```bash
-ollama run hf.co/mradermacher/YuLan-Mini-Instruct-V1-GGUF:IQ4_XS
+ollama run hf.co/mradermacher/YuLan-Mini-Instruct-GGUF:IQ4_XS
 ```
 
 ---
